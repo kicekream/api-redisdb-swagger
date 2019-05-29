@@ -1,0 +1,121 @@
+swagger: "2.0"
+
+info:
+  version: "0.0.1"
+  title: User Authentication API and CRUD operations
+  description: This specification is an evaluation project |
+    These specifications are used to fetch api endpoints using REST
+
+  contact:
+    name: kicekream
+    email: kicekream@gmail.com
+
+  license:
+    name: GNU
+
+host: localhost:3000
+basePath: /user/
+tags:
+  - name: user
+    description: Api for user Registration and login
+schemes:
+  - http
+  - https
+
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+paths:
+  /:
+    get:
+      tags:
+        - Users
+      summary: Fetches details of users in Database
+      responses:
+        "200":
+          description: OK
+  "/{username}":
+    parameters:
+      - name: username
+        in: path
+        required: true
+        description: Username of user that we want to field
+        type: string
+    put:
+      tags:
+        - Users
+      summary: Update User with given username
+      parameters:
+        - name: username
+          in: body
+          description: Username and password with new value of properties
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: User is updated
+        "400":
+          description: User does not exist
+    delete:
+      summary: Delete User with given username
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Deleted successfully
+        '400':
+          description: User does not exist
+        '404':
+          description: Error deleting user
+  /register:
+    post:
+      tags:
+        - Users
+      description: Register New User
+      parameters:
+        - name: username
+          in: body
+          description: Username and password that wants to be registered
+          schema:
+            $ref: '#/definitions/User'
+
+          
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New user is created
+        '400':
+          description: User exists, try another username
+  /login:
+    post:
+      tags:
+        - Users
+      description: Login existing User
+      parameters:
+        - name: username
+          in: body
+          description: Username that wants to login
+          schema:
+            $ref: '#/definitions/User'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User logged in
+        '404':
+          description: Invalid username or password
+definitions:
+  User:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+        uniqueItems: true
+      password:
+        type: string

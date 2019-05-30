@@ -18,4 +18,8 @@ app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/user', user)
 
+app.get('/', (req, res) => {
+    res.redirect('/docs');
+})
+
 app.listen(3000, () => console.log("App started on port 3000"));

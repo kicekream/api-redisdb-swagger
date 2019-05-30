@@ -1,11 +1,15 @@
 //Redis DataBase
 const express = require("express");
 const redis = require("redis");
-const path = require('path')
+const path = require('path');
+const dotenv = require('dotenv');
 const swaggerUi = require("swagger-ui-express");
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load(path.join(process.cwd(), './swagger.yaml'))
+dotenv.config();
 const app = express();
+
+const PORT = process.env.PORT || 8080
 
 //Initialise Redis Database
 const redisClient = redis.createClient();
@@ -22,4 +26,4 @@ app.get('/', (req, res) => {
     res.redirect('/docs');
 })
 
-app.listen(3000, () => console.log("App started on port 3000"));
+app.listen(PORT, () => console.log(`App started on port ${PORT}`));
